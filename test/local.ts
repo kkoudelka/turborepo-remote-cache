@@ -21,6 +21,26 @@ test(`local'`, async t => {
     t2.equal(response.statusCode, 400)
     t2.equal(response.json().message, 'Missing Authorization header')
   })
+  t.test('should return 200 (readiness)', async t2 => {
+    t2.plan(2)
+    const response = await app.inject({
+      method: 'GET',
+      url: '/api/readiness',
+      headers: {},
+    })
+    t2.equal(response.statusCode, 200)
+    t2.equal(response.json().status, 'ok')
+  })
+  t.test('should return 200 (healthz)', async t2 => {
+    t2.plan(2)
+    const response = await app.inject({
+      method: 'GET',
+      url: '/api/healthz',
+      headers: {},
+    })
+    t2.equal(response.statusCode, 200)
+    t2.equal(response.json().status, 'ok')
+  })
   t.test('should return 401 when wrong authorization token is provided', async t2 => {
     t2.plan(2)
     const response = await app.inject({

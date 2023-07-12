@@ -4,6 +4,7 @@ import { isBoom } from '@hapi/boom'
 import remoteCache from './plugins/remote-cache'
 import config from './plugins/config'
 import { logger } from './logger'
+import { getHealthz, getReadiness } from './plugins/remote-cache/routes'
 
 const uuid = hyperid({ urlSafe: true })
 
@@ -19,6 +20,11 @@ export function createApp(options: FastifyServerOptions = {}): FastifyInstance {
       allowedTokens: [...app.config.TURBO_TOKEN],
       provider: app.config.STORAGE_PROVIDER,
     })
+  })
+
+  app.register(async i => {
+    i.route(getReadiness)
+    i.route(getHealthz)
   })
 
   app.setErrorHandler((err, request, reply) => {
