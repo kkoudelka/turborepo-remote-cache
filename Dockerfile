@@ -44,7 +44,7 @@ COPY --chown=app:app --from=build $HOME/node/ $HOME/node/
 USER app
 WORKDIR $HOME/node
 
-EXPOSE 3000
+EXPOSE 8980
 
 ENV NODE_ENV=production
 
